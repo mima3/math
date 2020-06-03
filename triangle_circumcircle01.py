@@ -11,10 +11,6 @@ MIN_X = -100.0
 MAX_Y = 100.0
 MIN_Y = -100.0
 
-def get_slope_intercept(x1, y1, x2, y2):
-    a = (y2 - y1)/(x2 - x1)
-    b = (a * -1 * x1) + y1
-    return a, b
 
 def draw_line(ax, a,b):
     x = np.linspace(MIN_X, MAX_X, 100)
@@ -25,6 +21,11 @@ def draw_line(ax, a,b):
 
 def draw_circumcircle(ax, data):
     result = []
+    if not util2d.is_triangle(data):
+        print("三角形ではありません.")
+        print(data)
+        return []
+
     # 各辺の中点を求める
     m = (data[1] + data[0]) / 2
     n = (data[1] + data[2]) / 2
@@ -37,19 +38,28 @@ def draw_circumcircle(ax, data):
     result.append(center_scatter)
 
     # mを通る 法線
-    a1, b1 = get_slope_intercept(data[0][0], data[0][1], data[1][0], data[1][1])
+    a1, b1 = util2d.get_slope_intercept(data[0][0], data[0][1], data[1][0], data[1][1])
+    if a1 is None:
+        print("次の点を通る直線の傾きが存在しません", data[0], data[1])
+        return result
     na1 = -1 / a1
     nb1 = m[1] - (na1 * m[0])
     result.append(draw_line(ax, na1, nb1))
 
     # nを通る 法線
-    a2, b2 = get_slope_intercept(data[1][0], data[1][1], data[2][0], data[2][1])
+    a2, b2 = util2d.get_slope_intercept(data[1][0], data[1][1], data[2][0], data[2][1])
+    if a2 is None:
+        print("次の点を通る直線の傾きが存在しません", data[1], data[2])
+        return result
     na2 = -1 / a2
     nb2 = n[1] - (na2 * n[0])
     result.append(draw_line(ax, na2, nb2))
 
     # lを通る 法線
-    a3, b3 = get_slope_intercept(data[2][0], data[2][1], data[0][0], data[0][1])
+    a3, b3 = util2d.get_slope_intercept(data[2][0], data[2][1], data[0][0], data[0][1])
+    if a3 is None:
+        print("次の点を通る直線の傾きが存在しません", data[2], data[0])
+        return result
     na3 = -1 / a3
     nb3 = l[1] - (na3 * l[0])
     result.append(draw_line(ax, na3, nb3))

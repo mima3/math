@@ -26,6 +26,11 @@ def draw_line(ax, a,b):
 def draw_circumcircle(ax, data):
     result = []
     
+    if not util2d.is_triangle(data):
+        print("三角形ではありません.")
+        print(data)
+        return []
+    
     a = np.linalg.norm(data[1]-data[2])
     b = np.linalg.norm(data[0]-data[2])
     c = np.linalg.norm(data[0]-data[1])

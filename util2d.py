@@ -46,3 +46,24 @@ class PolyBuilder:
         self.line.set_data(line_x, line_y)
         self.line.figure.canvas.draw()
         self.points = np.array([])
+
+
+def get_slope_intercept(x1, y1, x2, y2):
+    """2点より傾きと切片を求める
+    """
+    if x1 == x2:
+        return None, None
+    a = (y2 - y1)/(x2 - x1)
+    b = (a * -1 * x1) + y1
+    return a, b
+
+
+def is_triangle(data):
+    """指定の点が三角形の条件を満たしているかチェックする"""
+    a = np.linalg.norm(data[1]-data[2])
+    b = np.linalg.norm(data[0]-data[2])
+    c = np.linalg.norm(data[0]-data[1])
+    if a + b > c and b + c > a and c + a > b:
+        return True
+    else:
+        return False
