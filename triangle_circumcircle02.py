@@ -6,10 +6,10 @@ import matplotlib.lines as mlines
 import matplotlib.patches as patches
 import util2d
 
-MAX_X = 10.0
-MIN_X = -10.0
-MAX_Y = 10.0
-MIN_Y = -10.0
+MAX_X = 100.0
+MIN_X = -100.0
+MAX_Y = 100.0
+MIN_Y = -100.0
 
 def get_slope_intercept(x1, y1, x2, y2):
     a = (y2 - y1)/(x2 - x1)
@@ -45,6 +45,8 @@ def draw_circumcircle(ax, data):
 plt.figure(figsize=(5,5))
 plt.xlim(MIN_X, MAX_X)
 plt.ylim(MIN_Y, MAX_Y)
+plt.grid(b=True, which='major', color='#666666', linestyle='-')
+
 ax = plt.gca()
 ax.set_title('click to build triangle')
 poly = util2d.PolyBuilder(ax, 3, draw_circumcircle)

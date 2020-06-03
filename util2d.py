@@ -2,6 +2,7 @@
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 
 class PolyBuilder:
@@ -19,14 +20,15 @@ class PolyBuilder:
 
     def __call__(self, event):
         if event.inaxes!=self.line.axes: return
+        click_point = [math.floor(event.xdata), math.floor(event.ydata)]
         if len(self.points) == 0:
             # 描画された図形があったら削除
             for i in self.items:
                 i.remove()
             # ポリゴンの座標を初期化
-            self.points = np.array([[event.xdata, event.ydata]])
+            self.points = np.array([click_point])
         else:
-            self.points = np.vstack((self.points, [event.xdata, event.ydata]))
+            self.points = np.vstack((self.points, click_point))
         self.scatter.remove()
         self.scatter = self.ax.scatter(self.points[:,0], self.points[:,1], color='red')
         line_x = self.points[:,0]
