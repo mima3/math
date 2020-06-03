@@ -25,7 +25,7 @@ def draw_linear_equations(ax, data):
     label = ""
     if a is None:
         # 傾きが存在しない
-        line, = ax.plot([data[0][0], data[0][1]], [MIN_Y, MAX_Y], color='gray', linestyle='dotted')
+        line, = ax.plot([data[0][0], data[1][0]], [MIN_Y, MAX_Y], color='gray', linestyle='dotted')
         label = f"x={data[0][0]}"
     else:
         line = draw_line(ax, a, b)
